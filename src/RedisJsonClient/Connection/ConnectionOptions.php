@@ -42,6 +42,9 @@ class ConnectionOptions
     /** @var int */
     private $database;
 
+    /** @var array */
+    private $context = [];
+
     /**
      * @param array $config
      */
@@ -67,6 +70,9 @@ class ConnectionOptions
 
         $database = $config[Connection::DATABASE] ?? Connection::DEFAULT[Connection::DATABASE];
         $this->setDatabase($database);
+
+        $context = $config[Connection::CONTEXT] ?? Connection::DEFAULT[Connection::CONTEXT];
+        $this->setContext($context);
     }
 
     /**
@@ -191,6 +197,24 @@ class ConnectionOptions
     }
 
     /**
+     * @return array Redis context array
+     */
+    public function getContext(): array
+    {
+        return $this->context;
+    }
+
+    /**
+     * @param array $context Redis context array
+     * @return ConnectionOptions
+     */
+    public function setContext(array $context): ConnectionOptions
+    {
+        $this->context = $context;
+        return $this;
+    }
+
+    /**
      * @return string|null identity for the requested persistent connection or null for non persistent connection
      */
     public function getPersistentId(): ?string
@@ -216,7 +240,8 @@ class ConnectionOptions
             $this->getTimeout(),
             $this->getPersistentId(),
             $this->getRetryInterval(),
-            $this->getReadTimeout()
+            $this->getReadTimeout(),
+            $this->getContext()
         ];
     }
 }

@@ -5,27 +5,33 @@
 [![GitHub](https://img.shields.io/github/license/averias/phpredis-json.svg)](https://github.com/averias/phpredis-json)
 
 # Phpredis-JSON
+
 RedisJson with the PHP Redis extension [phpredis](https://github.com/phpredis/phpredis).
 
 ## Intro
-Phpredis-JSON provides a full set of commands for [RedisJson Module](https://oss.redislabs.com/redisjson/). 
-It's built on top of the `phpredis` and use it as Redis client, 
+
+Phpredis-JSON provides a full set of commands for [RedisJson Module](https://oss.redislabs.com/redisjson/).
+It's built on top of the `phpredis` and use it as Redis client,
 so you can also take advantage of some of the features included in `phpredis` as Redis client.
 
 ## Why?
-Although you can issue RedisJSON commands by using some PHP Redis clients which provides you the ability to send 
+
+Although you can issue RedisJSON commands by using some PHP Redis clients which provides you the ability to send
 raw Redis commands, Phpredis-JSON:
-- avoids you the task of encoding your PHP data structures to JSON before sending them to Redis 
-and decode the JSON responses back from Redis
+
+- avoids you the task of encoding your PHP data structures to JSON before sending them to Redis
+  and decode the JSON responses back from Redis
 - it validates JSON encode/decode and throw a proper exception in case of failure
-- provides a set of commands as methods of the RedisJSON client  
+- provides a set of commands as methods of the RedisJSON client
 
 ## Requirements
+
 - Redis server 4.0+ version (RedisJson Module is only available from Redis 4.0+)
 - RedisJson Module installed on Redis server as specified in [Building and loading RedisJSON Module](https://oss.redislabs.com/redisjson/#building-and-loading-the-module)
 - PHP 7.2+ with PHP Redis extension 5 installed
 
 ## Usage
+
 ```php
 <?php
 
@@ -41,10 +47,11 @@ $redisJsonClientFactory = new RedisJsonClientFactory();
  *     'host' => '127.0.0.1',
  *     'port' => 6379,
  *     'timeout' => 0.0, // seconds
- *     'retryInterval' => 15 // milliseconds
+ *     'retryInterval' => 15, // milliseconds
  *     'readTimeout' => 2, // seconds
- *     'persistenceId' => null // string for persistent connections, null for no persistent ones
- *     'database' => 0 // Redis database index [0..15]
+ *     'persistenceId' => null, // string for persistent connections, null for no persistent ones
+ *     'database' => 0, // Redis database index [0..15]
+ *     'context' => [] // ['auth' => ['password'] or ['auth' => ['username', 'password']
  * ]
  */
 $defaultClient = $redisJsonClientFactory->createClient();
@@ -105,40 +112,47 @@ echo json_encode($ret) . PHP_EOL;
 ```
 
 ## Commands
+
 - **RedisJSON commands:** please take a look to the list of [phpredis-json commands](https://github.com/averias/phpredis-json/blob/master/docs/JSON-COMMANDS.md)
 - **Phpredis commands:** you can send Redis commands as specified in [phpredis documentation](https://github.com/phpredis/phpredis#table-of-contents)
 - **Raw commands:** you can send whatever you want to Redis by using `RedisJsonClient::executeRawCommand`:
+
 ```php
 // raw Redis JSON command
 $client->executeRawCommand(JsonCommands::GET, 'people', '.');
 
 // raw Redis command
 $client->executeRawCommand('hget, 'hash-key', 'foo');
-``` 
+```
 
 ## Tests
+
 #### On a local Redis server 4.0+ with RedisJSON module and Redis extension 5 installed
+
 From console run the following command from the root directory of this project:
 
 `./vendor/bin/phpunit`
 
-if you don't have configured your local Redis server in 127.0.0.1:6379 you can set REDIS_TEST_SERVER and REDIS_TEST_PORT 
-and REDIS_TEST_DATABASE in `./phpunit.xml` file with your local Redis host, port and database before running the above 
+if you don't have configured your local Redis server in 127.0.0.1:6379 you can set REDIS_TEST_SERVER and REDIS_TEST_PORT
+and REDIS_TEST_DATABASE in `./phpunit.xml` file with your local Redis host, port and database before running the above
 command.
-  
+
 #### Docker
+
 Having Docker installed, run the following command in the root directory of this project:
 
 `bash run-tests-docker.sh`
 
 by running the above bash script, two docker services will be built, one with PHP 7.2 with xdebug and redis extensions
-enabled and another with the image of `redislab\rejson:1.0.4` (Redis server 5 with RedisJson module installed). 
+enabled and another with the image of `redislab\rejson:1.0.4` (Redis server 5 with RedisJson module installed).
 Then the tests will run inside `phpredis-json` docker service container and finally both container will be stopped.
 
 ## Examples
+
 - [Usage](https://github.com/averias/phpredis-json/blob/master/examples/usage.php)
 - [Commands](https://github.com/averias/phpredis-json/blob/master/examples/commands.php)
 
 ## License
-Phpredis-Json code is distributed under MIT license, see [LICENSE](https://github.com/averias/phpredis-json/blob/master/LICENSE) 
+
+Phpredis-Json code is distributed under MIT license, see [LICENSE](https://github.com/averias/phpredis-json/blob/master/LICENSE)
 file

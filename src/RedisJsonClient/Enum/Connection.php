@@ -25,6 +25,7 @@ class Connection extends Enum
     const READ_TIMEOUT = 'readTimeout';
     const PERSISTENCE_ID = 'persistenceId';
     const DATABASE = 'database';
+    const CONTEXT = 'context';
 
     const DEFAULT = [
         self::HOST => '127.0.0.1',
@@ -33,6 +34,7 @@ class Connection extends Enum
         self::RETRY_INTERVAL => 0,
         self::READ_TIMEOUT => 0,
         self::PERSISTENCE_ID => null,
-        self::DATABASE => 0
+        self::DATABASE => 0,
+        self::CONTEXT => []
     ];
 }
